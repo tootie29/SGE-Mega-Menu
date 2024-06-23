@@ -1,0 +1,215 @@
+@media only screen and (min-width: 1281px) {
+    header nav {
+        display: none;
+    }
+}
+@media only screen and (max-width: 1280px) {
+    #mega-menu-root {
+        display: none;
+    }
+}
+.menu-level-1 {
+    display: flex;
+    flex-flow: row nowrap;
+    gap: 24px;
+    justify-content: space-between;
+    align-items: center;
+}
+.menu-level-1 .menu-item span,
+.menu-level-1 .menu-item a {
+    cursor: pointer;
+}
+.menu-level-1 > .menu-item {
+    display: flex;
+    flex-flow: column nowrap;
+    gap: 8px;
+}
+.menu-level-1 > .menu-item > a,
+.menu-level-1 > .menu-item > span {
+    font-family: "Noto Sans", sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 24px;
+    text-align: center;
+    color: #000000;
+    text-transform: capitalize;
+}
+.menu-level-1 > .menu-item.has-children {
+    display: flex;
+    flex-flow: row nowrap;
+    gap: 6px;
+    align-items: center;
+}
+.menu-level-1 > .menu-item.has-children:after {
+    content: '';
+    display: flex;
+    width: 8px;
+    height: 6px;
+    background-image: url("data:image/svg+xml,%3Csvg width='8' height='6' viewBox='0 0 8 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M4 6L8 0L3.96026 1.66667L0 0L4 6Z' fill='%23C3C3C3'/%3E%3C/svg%3E%0A");
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+.menu-level-2 {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #EBEBEB;
+    padding: 0 120px;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+}
+.menu-level-2 > .menu-item.no-children-parent {
+    position: relative;
+}
+.menu-level-2 > .menu-item > span,
+.menu-level-2 > .menu-item > a {
+    background: #EBEBEB;
+    padding: 20px 32px;
+    border-right: 2px solid #fff;
+    font-family: 'Bebas Neue';
+    font-size: 26px;
+    font-weight: 400;
+    line-height: 24px;
+    text-align: left;
+    color: #000;
+    display: flex;
+}
+.menu-level-2 .menu-item:last-child > span,
+.menu-level-2 .menu-item:last-child > a {
+    border-right: 0;
+}
+.menu-level-2 > .menu-item:hover > a,
+.menu-level-2 > .menu-item:hover > span,
+.menu-level-2 > .menu-item.selected > span,
+.menu-level-2 > .menu-item.selected > a {
+    background: #000000;
+    color: #fff;
+}
+.menu-level-2 > .menu-item > .tab-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #fff;
+    padding: 0 120px;
+    display: flex;
+    flex-flow: row nowrap;
+}
+.menu-level-2 > .menu-item > .tab-menu .tab-lists {
+    width: 100%;
+    max-width: 25%;
+    flex: 0 0 25%;
+    border-right: 2px solid #EBEBEB;
+    padding: 40px 40px 40px 0;
+    display: flex;
+    flex-flow: column nowrap;
+}
+.menu-level-2 > .menu-item > .tab-menu .tab-lists .tab-item {
+    width: 100%;
+    padding: 18px 56px 12px 26px;
+    gap: 10px;
+    position: relative;
+    font-family: Bebas Neue;
+    font-size: 26px;
+    font-weight: 400;
+    line-height: 24px;
+    text-align: left;
+    color: #000;
+}
+.menu-level-2 > .menu-item > .tab-menu .tab-lists .tab-item.active {
+    background: #FAE100;
+    border-radius: 32px;
+}
+.menu-level-2 > .menu-item > .tab-menu .tab-lists .tab-item:after {
+    content: '';
+    background-image: url("data:image/svg+xml,%3Csvg width='18' height='16' viewBox='0 0 18 16' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M17.7071 7.29289C18.0976 7.68342 18.0976 8.31658 17.7071 8.70711L11.3431 15.0711C10.9526 15.4616 10.3195 15.4616 9.92893 15.0711C9.53841 14.6805 9.53841 14.0474 9.92893 13.6569L15.5858 8L9.92893 2.34315C9.53841 1.95262 9.53841 1.31946 9.92893 0.928933C10.3195 0.538408 10.9526 0.538408 11.3431 0.928933L17.7071 7.29289ZM1 9L0 9V7H1V9ZM17 9L1 9V7L17 7L17 9Z' fill='black'/%3E%3C/svg%3E%0A");
+    width: 16px;
+    height: 16px;
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    transform: translateY(-50%);
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+.menu-level-2 > .menu-item > .tab-menu .tab-content {
+    width: 100%;
+    max-width: 75%;
+    flex: 0 0 75%;
+    padding: 40px 0px 40px 40px;
+    display: flex;
+    flex-flow: column nowrap;
+    gap: 16px;
+}
+.menu-level-2 > .menu-item > .tab-menu .tab-content .selected-tab-text {
+    padding: 12px;
+    border-bottom: 2px solid #EBEBEB;
+    font-family: Bebas Neue;
+    font-size: 26px;
+    font-weight: 400;
+    line-height: 24px;
+    letter-spacing: 0.03em;
+    text-align: left;
+    color: #000000;
+    text-transform: uppercase;
+}
+.menu-level-2 > .menu-item > .tab-menu .tab-content .menu-level-4 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+}
+.menu-level-2 > .menu-item > .tab-menu .tab-content .menu-level-4 .menu-item {
+    width: 100%;
+    display: flex;
+}
+.menu-level-2 > .menu-item > .tab-menu .tab-content .menu-level-4 .menu-item a,
+.menu-level-2 > .menu-item > .tab-menu .tab-content .menu-level-4 .menu-item > span {
+    padding: 10px 16px;
+    font-family: 'Lato', sans-serif;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 26px;
+    text-align: left;
+    width: 100%;
+    color: #000;
+}
+.menu-level-2 > .menu-item > .tab-menu .tab-content .menu-level-4 .menu-item a > span,
+.menu-level-2 > .menu-item > .tab-menu .tab-content .menu-level-4 .menu-item span > span {
+    font-style: italic;
+    font-weight: 400;
+}
+.menu-level-2 > .menu-item > .no-children {
+    padding: 0;
+    display: flex;
+    background: 0;
+    padding-top: 3px;
+}
+.menu-level-2 > .menu-item > .no-children > .normal-menu-items {
+    border-radius: 8px;
+    overflow: hidden;
+    display: flex;
+    flex-flow: column nowrap;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    background: #FFFFFF;
+    box-shadow: 0px 4px 20px 0px #0000001A;
+}
+.menu-level-2 > .menu-item > .no-children > .normal-menu-items .normal-menu-item {
+    width: 100%;
+    padding: 12px 32px 12px 32px;
+    font-family: Lato;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 26px;
+    text-align: left;
+    color: #000000;
+}
+@media only screen and (max-width: 1439px) {
+    .menu-level-2 {
+        padding: 0 20px;
+    }
+    .menu-level-2 > .menu-item > .tab-menu {
+        padding: 0 20px;
+    }
+}
