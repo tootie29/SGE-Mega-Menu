@@ -19,6 +19,9 @@
 .menu-level-1 .menu-item a {
     cursor: pointer;
 }
+.menu-level-1 .menu-item a:hover {
+    text-decoration: underline;
+}
 .menu-level-1 > .menu-item {
     display: flex;
     flex-flow: column nowrap;

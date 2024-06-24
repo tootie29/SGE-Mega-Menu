@@ -45,17 +45,15 @@ function mega_menu_get_asset_paths() {
 
 // Enqueue React and Custom Scripts for Frontend
 function mega_menu_enqueue_scripts() {
-    if (!is_admin()) {
-        $assets = mega_menu_get_asset_paths();
+    $assets = mega_menu_get_asset_paths();
 
-        if ($assets) {
-            foreach ($assets['css'] as $css_file) {
-                wp_enqueue_style('sge-mega-menu-style', plugin_dir_url(__FILE__) . 'build/' . $css_file, array(), '1.0', 'all');
-            }
+    if ($assets) {
+        foreach ($assets['css'] as $css_file) {
+            wp_enqueue_style('sge-mega-menu-style', plugin_dir_url(__FILE__) . 'build/' . $css_file, array(), '1.0', 'all');
+        }
 
-            foreach ($assets['js'] as $js_file) {
-                wp_enqueue_script('sge-mega-menu-script', plugin_dir_url(__FILE__) . 'build/' . $js_file, array(), '1.0', true);
-            }
+        foreach ($assets['js'] as $js_file) {
+            wp_enqueue_script('sge-mega-menu-js', plugin_dir_url(__FILE__) . 'build/' . $js_file, array(), '1.0', true);
         }
     }
 }
