@@ -89,6 +89,9 @@ const MenuLevel = ({
                             isItemActive ? "selected": ""
                         } ${parentClass} ${level1Class}`}
                         onMouseEnter={() => {
+                            if (level === 1 && item.level_2) {
+                                toggleVisibility(level, index);
+                            }
                             if (level === 2 && item.level_3) {
                                 toggleVisibility(level, index);
                                 setActiveTab((prevState) => ({
@@ -107,6 +110,9 @@ const MenuLevel = ({
                             }
                         }}
                         onMouseLeave={() => {
+                            if (level === 1) {
+                                toggleVisibility(level, null);  // Hide the submenu on mouse leave
+                            }
                             if (level === 2) {
                                 toggleVisibility(level, null);  // Hide the submenu on mouse leave
                                 setActiveTab((prevState) => ({
