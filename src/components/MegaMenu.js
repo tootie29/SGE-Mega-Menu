@@ -69,21 +69,18 @@ const MenuLevel = ({
                     item.level_3 ||
                     item.level_4 ||
                     item.level_5;
-                const        isTab          = level             === 3 && item.level_4;
-                const        isActive       = activeTab[level]  === index;
-                const        isItemActive   = activeItem[level] === index;
-                const        itemClass      = 
-                !hasChildren && level     === 3
-                        ? "menu-item no-children"
-                        :  "menu-item";
-                const parentClass   = 
-                      level       === 2 &&
+                const isTab        = level                 === 3 && item.level_4;
+                const isActive     = activeTab[level]      === index;
+                const isItemActive = activeItem[level]     === index;
+                const itemClass    = !hasChildren && level === 3
+                    ? "menu-item no-children"
+                    :  "menu-item";
+                const parentClass = level === 2 &&
                     item.level_3 &&
                     item.level_3.every((subItem) => !subItem.level_4)
                         ? "no-children-parent"
-                        :  "";
-                const level1Class   = 
-                      level       === 1 && hasChildren ? "has-children" : "";
+                                                                               :  "";
+                const level1Class = level === 1 && hasChildren ? "has-children": "";
 
                 return (
                     <div
@@ -111,7 +108,7 @@ const MenuLevel = ({
                         }}
                         onMouseLeave={() => {
                             if (level === 2) {
-                                toggleVisibility(level, index);
+                                toggleVisibility(level, null);  // Hide the submenu on mouse leave
                                 setActiveTab((prevState) => ({
                                     ...prevState,
                                     [3]: null,
@@ -122,26 +119,30 @@ const MenuLevel = ({
                     >
                         {item.link ? (
                             <a
-                                href                    = {item.link}
-                                onClick                 = {(e) => e.stopPropagation()}
+                                href    = {item.link}
+                                onClick = {(e) => {
+                                    e.stopPropagation();
+                                }}
                                 dangerouslySetInnerHTML = {{ __html: item.text }}
                             />
                         ) : (
                             <span
                                 onClick={(e) => {
-                                    e.stopPropagation();
-                                    if (isTab) {
-                                        setActiveTab((prevState) => ({
-                                            ...prevState,
-                                            [level]: prevState[level] === index ? null : index,
-                                        }));
-                                        setSelectedTabText(item.text);
-                                    } else {
-                                        toggleVisibility(level, index);
-                                        setActiveItem((prevState) => ({
-                                            ...prevState,
-                                            [level]: index,
-                                        }));
+                                    if (level !== 2) {
+                                        e.stopPropagation();
+                                        if (isTab) {
+                                            setActiveTab((prevState) => ({
+                                                ...prevState,
+                                                [level]: prevState[level] === index ? null : index,
+                                            }));
+                                            setSelectedTabText(item.text);
+                                        } else {
+                                            toggleVisibility(level, index);
+                                            setActiveItem((prevState) => ({
+                                                ...prevState,
+                                                [level]: index,
+                                            }));
+                                        }
                                     }
                                 }}
                                 dangerouslySetInnerHTML = {{ __html: item.text }}
