@@ -14,7 +14,7 @@ const MenuLevel = ({
     setActiveItem,
 }) => {
     useEffect(() => {
-        // Automatically select the first tab in level 3 if visible and not already selected
+          // Automatically select the first tab in level 3 if visible and not already selected
         if (level === 3 && items.length > 0 && activeTab[level] === undefined) {
             const firstItemWithChildren = items.find((item) => item.level_4);
             if (firstItemWithChildren) {
@@ -29,7 +29,7 @@ const MenuLevel = ({
     }, [level, items, activeTab, setActiveTab, setSelectedTabText]);
 
     useEffect(() => {
-        // Set the width of menu-level-2 and tab-menu to match the body width
+          // Set the width of menu-level-2 and tab-menu to match the body width
         const updateWidth = () => {
             const bodyWidth = document.body.clientWidth;
             if (level === 2 || level === 3) {
@@ -63,72 +63,77 @@ const MenuLevel = ({
             }`}
         >
             {items.map((item, index) => {
-                const hasChildren =
+                const hasChildren = 
                     item.level_1 ||
                     item.level_2 ||
                     item.level_3 ||
                     item.level_4 ||
                     item.level_5;
-                const isTab = level === 3 && item.level_4;
-                const isActive = activeTab[level] === index;
-                const isItemActive = activeItem[level] === index;
-                const itemClass =
-                    !hasChildren && level === 3
+                const        isTab          = level             === 3 && item.level_4;
+                const        isActive       = activeTab[level]  === index;
+                const        isItemActive   = activeItem[level] === index;
+                const        itemClass      = 
+                !hasChildren && level     === 3
                         ? "menu-item no-children"
-                        : "menu-item";
-                const parentClass =
-                    level === 2 &&
+                        :  "menu-item";
+                const parentClass   = 
+                      level       === 2 &&
                     item.level_3 &&
                     item.level_3.every((subItem) => !subItem.level_4)
                         ? "no-children-parent"
-                        : "";
-                const level1Class =
-                    level === 1 && hasChildren ? "has-children" : "";
+                        :  "";
+                const level1Class   = 
+                      level       === 1 && hasChildren ? "has-children" : "";
 
                 return (
                     <div
-                        key={index}
-                        className={`${itemClass} ${isActive ? "active" : ""} ${
-                            isItemActive ? "selected" : ""
+                        key       = {index}
+                        className = {`${itemClass} ${isActive ? "active" : ""} ${
+                            isItemActive ? "selected": ""
                         } ${parentClass} ${level1Class}`}
+                        onMouseEnter={() => {
+                            if (level === 2 && item.level_3) {
+                                toggleVisibility(level, index);
+                                setActiveTab((prevState) => ({
+                                    ...prevState,
+                                    [3]: item.level_3[0] && item.level_3[0].level_4 ? 0: null,
+                                }));
+                                setActiveItem((prevState) => ({
+                                    ...prevState,
+                                    [level]: index,
+                                }));
+                                setSelectedTabText(
+                                    item.level_3[0] && item.level_3[0].level_4
+                                        ? item.level_3[0].text
+                                        :  ""
+                                );
+                            }
+                        }}
+                        onMouseLeave={() => {
+                            if (level === 2) {
+                                toggleVisibility(level, index);
+                                setActiveTab((prevState) => ({
+                                    ...prevState,
+                                    [3]: null,
+                                }));
+                                setSelectedTabText("");
+                            }
+                        }}
                     >
                         {item.link ? (
                             <a
-                                href={item.link}
-                                onClick={(e) => e.stopPropagation()}
-                                dangerouslySetInnerHTML={{ __html: item.text }}
+                                href                    = {item.link}
+                                onClick                 = {(e) => e.stopPropagation()}
+                                dangerouslySetInnerHTML = {{ __html: item.text }}
                             />
                         ) : (
                             <span
                                 onClick={(e) => {
                                     e.stopPropagation();
-                                    if (level === 2 && item.level_3) {
-                                        toggleVisibility(level, index);
+                                    if (isTab) {
                                         setActiveTab((prevState) => ({
                                             ...prevState,
-                                            [3]:
-                                                item.level_3[0] &&
-                                                item.level_3[0].level_4
-                                                    ? 0
-                                                    : null,
-                                        }));
-                                        setActiveItem((prevState) => ({
-                                            ...prevState,
-                                            [level]: index,
-                                        }));
-                                        setSelectedTabText(
-                                            item.level_3[0] &&
-                                                item.level_3[0].level_4
-                                                ? item.level_3[0].text
-                                                : ""
-                                        );
-                                    } else if (isTab) {
-                                        setActiveTab((prevState) => ({
-                                            ...prevState,
-                                            [level]:
-                                                prevState[level] === index
-                                                    ? null
-                                                    : index,
+                                            [level]: prevState[level] === index ? null : index,
                                         }));
                                         setSelectedTabText(item.text);
                                     } else {
@@ -139,7 +144,7 @@ const MenuLevel = ({
                                         }));
                                     }
                                 }}
-                                dangerouslySetInnerHTML={{ __html: item.text }}
+                                dangerouslySetInnerHTML = {{ __html: item.text }}
                             />
                         )}
                         {(visibleItems[level] === index ||
@@ -147,30 +152,30 @@ const MenuLevel = ({
                             <>
                                 {item.level_1 && (
                                     <MenuLevel
-                                        items={item.level_1}
-                                        level={level + 1}
-                                        visibleItems={visibleItems}
-                                        toggleVisibility={toggleVisibility}
-                                        activeTab={activeTab}
-                                        setActiveTab={setActiveTab}
-                                        selectedTabText={selectedTabText}
-                                        setSelectedTabText={setSelectedTabText}
-                                        activeItem={activeItem}
-                                        setActiveItem={setActiveItem}
+                                        items              = {item.level_1}
+                                        level              = {level + 1}
+                                        visibleItems       = {visibleItems}
+                                        toggleVisibility   = {toggleVisibility}
+                                        activeTab          = {activeTab}
+                                        setActiveTab       = {setActiveTab}
+                                        selectedTabText    = {selectedTabText}
+                                        setSelectedTabText = {setSelectedTabText}
+                                        activeItem         = {activeItem}
+                                        setActiveItem      = {setActiveItem}
                                     />
                                 )}
                                 {item.level_2 && (
                                     <MenuLevel
-                                        items={item.level_2}
-                                        level={level + 1}
-                                        visibleItems={visibleItems}
-                                        toggleVisibility={toggleVisibility}
-                                        activeTab={activeTab}
-                                        setActiveTab={setActiveTab}
-                                        selectedTabText={selectedTabText}
-                                        setSelectedTabText={setSelectedTabText}
-                                        activeItem={activeItem}
-                                        setActiveItem={setActiveItem}
+                                        items              = {item.level_2}
+                                        level              = {level + 1}
+                                        visibleItems       = {visibleItems}
+                                        toggleVisibility   = {toggleVisibility}
+                                        activeTab          = {activeTab}
+                                        setActiveTab       = {setActiveTab}
+                                        selectedTabText    = {selectedTabText}
+                                        setSelectedTabText = {setSelectedTabText}
+                                        activeItem         = {activeItem}
+                                        setActiveItem      = {setActiveItem}
                                     />
                                 )}
                                 {level === 2 &&
@@ -182,29 +187,29 @@ const MenuLevel = ({
                                                     (tabItem) => tabItem.level_4
                                                 )
                                                     ? ""
-                                                    : "no-children"
+                                                    :  "no-children"
                                             }`}
                                             style={
                                                 item.level_3.some(
                                                     (tabItem) => tabItem.level_4
                                                 )
                                                     ? { width: "100vw" }
-                                                    : {}
+                                                    :  {}
                                             }
                                         >
                                             {item.level_3.some(
                                                 (tabItem) => tabItem.level_4
                                             ) ? (
-                                                <div className="tab-lists">
+                                                <div className = "tab-lists">
                                                     {item.level_3.map(
                                                         (tabItem, tabIndex) => (
                                                             <span
-                                                                key={tabIndex}
-                                                                className={`tab-item ${
-                                                                    activeTab[3] ===
+                                                                key       = {tabIndex}
+                                                                className = {`tab-item ${
+                                                                    activeTab[3] === 
                                                                     tabIndex
                                                                         ? "active"
-                                                                        : ""
+                                                                        :  ""
                                                                 }`}
                                                                 onClick={(
                                                                     e
@@ -230,13 +235,13 @@ const MenuLevel = ({
                                                     )}
                                                 </div>
                                             ) : (
-                                                <div className="normal-menu-items">
+                                                <div className = "normal-menu-items">
                                                     {item.level_3.map(
                                                         (tabItem, tabIndex) => (
                                                             <span
-                                                                key={tabIndex}
-                                                                className="normal-menu-item"
-                                                                dangerouslySetInnerHTML={{
+                                                                key                     = {tabIndex}
+                                                                className               = "normal-menu-item"
+                                                                dangerouslySetInnerHTML = {{
                                                                     __html: tabItem.text,
                                                                 }}
                                                             />
@@ -247,10 +252,10 @@ const MenuLevel = ({
                                             {item.level_3[activeTab[3]] &&
                                                 item.level_3[activeTab[3]]
                                                     .level_4 && (
-                                                    <div className="tab-content">
+                                                    <div className = "tab-content">
                                                         <div
-                                                            className="selected-tab-text"
-                                                            dangerouslySetInnerHTML={{
+                                                            className               = "selected-tab-text"
+                                                            dangerouslySetInnerHTML = {{
                                                                 __html: selectedTabText,
                                                             }}
                                                         />
@@ -260,8 +265,8 @@ const MenuLevel = ({
                                                                     activeTab[3]
                                                                 ].level_4
                                                             }
-                                                            level={4}
-                                                            visibleItems={
+                                                            level        = {4}
+                                                            visibleItems = {
                                                                 visibleItems
                                                             }
                                                             toggleVisibility={
@@ -291,35 +296,35 @@ const MenuLevel = ({
                                         </div>
                                     )}
                                 {level === 3 && !isTab && (
-                                    <div className="normal-menu-content">
+                                    <div className = "normal-menu-content">
                                         <MenuLevel
-                                            items={item.level_4}
-                                            level={4}
-                                            visibleItems={visibleItems}
-                                            toggleVisibility={toggleVisibility}
-                                            activeTab={activeTab}
-                                            setActiveTab={setActiveTab}
-                                            selectedTabText={selectedTabText}
-                                            setSelectedTabText={
+                                            items              = {item.level_4}
+                                            level              = {4}
+                                            visibleItems       = {visibleItems}
+                                            toggleVisibility   = {toggleVisibility}
+                                            activeTab          = {activeTab}
+                                            setActiveTab       = {setActiveTab}
+                                            selectedTabText    = {selectedTabText}
+                                            setSelectedTabText = {
                                                 setSelectedTabText
                                             }
-                                            activeItem={activeItem}
-                                            setActiveItem={setActiveItem}
+                                            activeItem    = {activeItem}
+                                            setActiveItem = {setActiveItem}
                                         />
                                     </div>
                                 )}
                                 {item.level_5 && (
                                     <MenuLevel
-                                        items={item.level_5}
-                                        level={level + 1}
-                                        visibleItems={visibleItems}
-                                        toggleVisibility={toggleVisibility}
-                                        activeTab={activeTab}
-                                        setActiveTab={setActiveTab}
-                                        selectedTabText={selectedTabText}
-                                        setSelectedTabText={setSelectedTabText}
-                                        activeItem={activeItem}
-                                        setActiveItem={setActiveItem}
+                                        items              = {item.level_5}
+                                        level              = {level + 1}
+                                        visibleItems       = {visibleItems}
+                                        toggleVisibility   = {toggleVisibility}
+                                        activeTab          = {activeTab}
+                                        setActiveTab       = {setActiveTab}
+                                        selectedTabText    = {selectedTabText}
+                                        setSelectedTabText = {setSelectedTabText}
+                                        activeItem         = {activeItem}
+                                        setActiveItem      = {setActiveItem}
                                     />
                                 )}
                             </>
@@ -332,15 +337,15 @@ const MenuLevel = ({
 };
 
 const MegaMenu = () => {
-    const [menuItems, setMenuItems] = useState([]);
-    const [visibleItems, setVisibleItems] = useState({});
-    const [activeTab, setActiveTab] = useState({});
+    const [menuItems, setMenuItems]             = useState([]);
+    const [visibleItems, setVisibleItems]       = useState({});
+    const [activeTab, setActiveTab]             = useState({});
     const [selectedTabText, setSelectedTabText] = useState("");
-    const [activeItem, setActiveItem] = useState({});
-    const menuRef = useRef(null);
+    const [activeItem, setActiveItem]           = useState({});
+    const menuRef                               = useRef(null);
 
     useEffect(() => {
-        // Fetch menu items from ACF options
+          // Fetch menu items from ACF options
         fetch("/wp-json/acf/v3/options/options")
             .then((response) => response.json())
             .then((data) => {
@@ -355,7 +360,7 @@ const MegaMenu = () => {
                 console.error("Error fetching menu items:", error)
             );
 
-        // Handle outside clicks
+          // Handle outside clicks
         const handleClickOutside = (event) => {
             if (menuRef.current && !menuRef.current.contains(event.target)) {
                 setVisibleItems({});
@@ -390,18 +395,18 @@ const MegaMenu = () => {
     };
 
     return (
-        <div ref={menuRef}>
+        <div ref = {menuRef}>
             <MenuLevel
-                items={menuItems}
-                level={1}
-                visibleItems={visibleItems}
-                toggleVisibility={toggleVisibility}
-                activeTab={activeTab}
-                setActiveTab={setActiveTab}
-                selectedTabText={selectedTabText}
-                setSelectedTabText={setSelectedTabText}
-                activeItem={activeItem}
-                setActiveItem={setActiveItem}
+                items              = {menuItems}
+                level              = {1}
+                visibleItems       = {visibleItems}
+                toggleVisibility   = {toggleVisibility}
+                activeTab          = {activeTab}
+                setActiveTab       = {setActiveTab}
+                selectedTabText    = {selectedTabText}
+                setSelectedTabText = {setSelectedTabText}
+                activeItem         = {activeItem}
+                setActiveItem      = {setActiveItem}
             />
         </div>
     );
