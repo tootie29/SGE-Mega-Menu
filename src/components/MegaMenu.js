@@ -12,7 +12,11 @@ const MenuLevel = ({
     setSelectedTabText,
     activeItem,
     setActiveItem,
+    parentHasNoChildren,
 }) => {
+    const hasNoChildren = items.every((item) => !item.level_4);
+    const level2HasNoChildren = level === 2 && items.every((item) => !item.level_3);
+
     useEffect(() => {
         // Automatically select the first tab in level 3 if visible and not already selected
         if (level === 3 && items.length > 0 && activeTab[level] === undefined) {
@@ -54,13 +58,11 @@ const MenuLevel = ({
         return null;
     }
 
-    const hasNoChildren = items.every((item) => !item.level_4);
-
     return (
         <div
             className={`menu-level menu-level-${level} ${
                 level === 3 && hasNoChildren ? "no-children" : ""
-            }`}
+            } ${level2HasNoChildren ? "no-children-level-2" : ""}`}
         >
             {items.map((item, index) => {
                 const hasChildren = 
@@ -75,19 +77,22 @@ const MenuLevel = ({
                 const itemClass = !hasChildren && level === 3
                     ? "menu-item no-children"
                     : "menu-item";
-                const parentClass = level === 2 &&
-                    item.level_3 &&
-                    item.level_3.every((subItem) => !subItem.level_4)
-                        ? "no-children-parent"
-                        : "";
-                const level1Class = level === 1 && hasChildren ? "has-children" : "";
+                const parentClass = level === 1 && item.level_2 && item.level_2.every((subItem) => !subItem.level_3)
+                    ? "no-children-level-2-parent"
+                    : "";
+                const level1Class = level === 1 && hasChildren
+                    ? "has-children"
+                    : "";
+                const normalMenuItemClass = level === 1 && item.level_2 && item.level_2.every((subItem) => !subItem.level_3)
+                    ? "normal-menu-item"
+                    : "";
 
                 return (
                     <div
                         key={index}
                         className={`${itemClass} ${isActive ? "active" : ""} ${
                             isItemActive ? "selected" : ""
-                        } ${parentClass} ${level1Class}`}
+                        } ${parentClass} ${level1Class} ${normalMenuItemClass}`}
                         onMouseEnter={() => {
                             if (level === 1 && item.level_2) {
                                 toggleVisibility(level, index);
@@ -169,6 +174,7 @@ const MenuLevel = ({
                                         setSelectedTabText={setSelectedTabText}
                                         activeItem={activeItem}
                                         setActiveItem={setActiveItem}
+                                        parentHasNoChildren={level2HasNoChildren}
                                     />
                                 )}
                                 {item.level_2 && (
@@ -183,6 +189,7 @@ const MenuLevel = ({
                                         setSelectedTabText={setSelectedTabText}
                                         activeItem={activeItem}
                                         setActiveItem={setActiveItem}
+                                        parentHasNoChildren={level2HasNoChildren}
                                     />
                                 )}
                                 {level === 2 &&
@@ -243,17 +250,32 @@ const MenuLevel = ({
                                                 </div>
                                             ) : (
                                                 <div className="normal-menu-items">
-                                                    {item.level_3.map(
-                                                        (tabItem, tabIndex) => (
-                                                            <span
-                                                                key={tabIndex}
-                                                                className="normal-menu-item"
-                                                                dangerouslySetInnerHTML={{
-                                                                    __html: tabItem.text,
-                                                                }}
-                                                            />
+                                                    {item.level_3
+                                                        ? item.level_3.map(
+                                                            (
+                                                                tabItem,
+                                                                tabIndex
+                                                            ) => (
+                                                                <a
+                                                                    key={
+                                                                        tabIndex
+                                                                    }
+                                                                    href={
+                                                                        tabItem.link
+                                                                    }
+                                                                    className="normal-menu-item"
+                                                                    dangerouslySetInnerHTML={{
+                                                                        __html: tabItem.text,
+                                                                    }}
+                                                                    onClick={(
+                                                                        e
+                                                                    ) =>
+                                                                        e.stopPropagation()
+                                                                    }
+                                                                />
+                                                            )
                                                         )
-                                                    )}
+                                                        : null}
                                                 </div>
                                             )}
                                             {item.level_3[activeTab[3]] &&
@@ -297,6 +319,7 @@ const MenuLevel = ({
                                                             setActiveItem={
                                                                 setActiveItem
                                                             }
+                                                            parentHasNoChildren={level2HasNoChildren}
                                                         />
                                                     </div>
                                                 )}
@@ -317,6 +340,7 @@ const MenuLevel = ({
                                             }
                                             activeItem={activeItem}
                                             setActiveItem={setActiveItem}
+                                            parentHasNoChildren={level2HasNoChildren}
                                         />
                                     </div>
                                 )}
@@ -332,6 +356,7 @@ const MenuLevel = ({
                                         setSelectedTabText={setSelectedTabText}
                                         activeItem={activeItem}
                                         setActiveItem={setActiveItem}
+                                        parentHasNoChildren={level2HasNoChildren}
                                     />
                                 )}
                             </>
@@ -349,6 +374,7 @@ const MegaMenu = () => {
     const [activeTab, setActiveTab] = useState({});
     const [selectedTabText, setSelectedTabText] = useState("");
     const [activeItem, setActiveItem] = useState({});
+    const [parentNoChildrenClass, setParentNoChildrenClass] = useState(false);
     const menuRef = useRef(null);
 
     useEffect(() => {
@@ -374,6 +400,7 @@ const MegaMenu = () => {
                 setActiveTab({});
                 setSelectedTabText("");
                 setActiveItem({});
+                setParentNoChildrenClass(false);
             }
         };
 
@@ -398,11 +425,15 @@ const MegaMenu = () => {
                 ...prevState,
                 [level]: index,
             }));
+            setParentNoChildrenClass(visibleItems[level] === index);
         }
     };
 
     return (
-        <div ref={menuRef}>
+        <div
+            ref={menuRef}
+            className={`mega-menu ${parentNoChildrenClass ? "no-children-level-2-parent" : ""}`}
+        >
             <MenuLevel
                 items={menuItems}
                 level={1}
@@ -414,6 +445,7 @@ const MegaMenu = () => {
                 setSelectedTabText={setSelectedTabText}
                 activeItem={activeItem}
                 setActiveItem={setActiveItem}
+                parentHasNoChildren={parentNoChildrenClass}
             />
         </div>
     );
