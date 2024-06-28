@@ -132,6 +132,7 @@ const MenuLevel = ({
                         {item.link ? (
                             <a
                                 href={item.link}
+                                className="menu-link"
                                 onClick={(e) => {
                                     if (isMobile && hasChildren) {
                                         e.preventDefault();

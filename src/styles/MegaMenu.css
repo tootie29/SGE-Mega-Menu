@@ -304,6 +304,7 @@
 
     .menu-item.has-children {
         position: relative;
+        z-index: 1;
     }
     .menu-item a,
     .menu-item span {
@@ -347,6 +348,7 @@
     .menu-level-1>.no-children-level-2-parent.open>.no-children-level-2 .menu-item a, 
     .menu-level-1>.no-children-level-2-parent.open>.no-children-level-2 .menu-item span {
         padding-left: 40px;
+        background: #F0F0F0;
     }
 
     .menu-item.active>.menu-level-2,
@@ -448,7 +450,8 @@
         display: flex;
         flex-flow: column nowrap;
     }
-    .menu-level-2.accordion .menu-level .menu-item span {
+    .menu-level-2.accordion .menu-level .menu-item span,
+    .menu-level-2.accordion .menu-level .menu-item a {
         font-family: 'Noto Sans', sans-serif;
         font-size: 16px;
         font-weight: 500;
@@ -460,6 +463,11 @@
         flex-flow: column nowrap;
         width: 100%;
         text-transform: capitalize;
+        color: #000;
+    }
+    .menu-level-2.accordion .menu-level .menu-item.open span,
+    .menu-level-2.accordion .menu-level .menu-item.open > a {
+        color: #fff;
     }
     .menu-level-4 {
         display: flex;
@@ -495,26 +503,45 @@
         right: 16px;
         top: 13px;
     }
-    .menu-level-1 .has-children.open span {
+    .menu-level-1 .has-children.open span,
+    .menu-level-1 .has-children.open a {
         background: #F0F0F0;
     }
-    .menu-level-1 .has-children.open .menu-level span {
+    .menu-level-1 .has-children.open .menu-level span,
+    .menu-level-1 .has-children.open .menu-level a {
         padding-left: 40px;
     }
-    .menu-level-1 .has-children.open > span {
+    .menu-level-1 .has-children.open > span,
+    .menu-level-1 .has-children.open > a {
         background: #000;
         color: #fff;
     }
+    
     .menu-level-1 .has-children.open:after {
         background-image: url("data:image/svg+xml,%3Csvg width='24' height='25' viewBox='0 0 24 25' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M12 7.47607L19 17.4761L11.9305 14.6983L5 17.4761L12 7.47607Z' fill='white'/%3E%3C/svg%3E%0A");
     }
-    .menu-level-2 .has-children.open span {
+    .menu-level-2 .has-children.open span,
+    .menu-level-2 .has-children.open a {
         background: #FFFFFF;
     }
-    .menu-level-2 .has-children.open .menu-level span {
+    /* .menu-level-2 .has-children.open .menu-level a {
+        display: flex;
+        flex-flow: column nowrap;
+        font-family: Noto Sans, sans-serif;
+        font-size: 16px;
+        font-weight: 500;
+        line-height: 24px;
+        padding: 12px 50px 12px 20px;
+        text-align: left;
+        text-transform: capitalize;
+        width: 100%;
+    } */
+    .menu-level-2 .has-children.open .menu-level span,
+    .menu-level-2 .has-children.open .menu-level a {
         padding-left: 60px;
     }
-    .menu-level-2 .has-children.open > span {
+    .menu-level-2 .has-children.open > span,
+    .menu-level-2 .has-children.open > a {
         background: #FAE000;
         color: #000;
     }
@@ -536,7 +563,8 @@
         padding-left: 80px;
     }
 
-    .menu-level-3 .has-children.open>span {
+    .menu-level-3 .has-children.open>span,
+    .menu-level-3 .has-children.open>a {
         background: #000;
         color: #fff;
     }
@@ -546,7 +574,8 @@
     }
     .menu-level-1 .menu-item.open,
     .menu-level-1 .menu-item.open .menu-level-2,
-    .menu-item.open > span {
+    .menu-item.open > span,
+    .menu-item.open > a {
         border: 0;
     }
 }
