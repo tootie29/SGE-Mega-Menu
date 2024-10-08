@@ -148,6 +148,7 @@ const MenuLevel = ({
                             />
                         ) : (
                             <span
+                                className="menu-link"
                                 onClick={(e) => {
                                     e.stopPropagation();
                                     if (isMobile && hasChildren) {
@@ -170,6 +171,20 @@ const MenuLevel = ({
                                 }}
                                 dangerouslySetInnerHTML={{ __html: item.text }}
                             />
+                        )}
+                        {/* Add a toggle arrow for mobile */}
+                        {hasChildren && isMobile && (
+                            <span
+                                className="toggle-arrow"
+                                onClick={(e) => {
+                                    e.stopPropagation(); // Prevent click from bubbling up
+                                    toggleVisibility(level, index); // Toggle visibility
+                                }}
+                            >
+                                <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M12 17.4761L19 7.47607L11.9305 10.2539L5 7.47607L12 17.4761Z" fill="#D4D4D4"/>
+                                </svg>
+                            </span> // Arrow for toggling
                         )}
                         {(isVisible || (isTab && isActive)) && (
                             <>

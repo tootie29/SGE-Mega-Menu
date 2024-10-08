@@ -132,3 +132,60 @@ function render_mega_menu() {
 add_shortcode('sge_mega_menu', 'render_mega_menu');
 
 add_filter('acf/rest_api/options/get', '__return_true');
+
+
+function fetch_acf_level_1_from_api_shortcode() {
+    $api_url = site_url(). '/wp-json/acf/v3/options/options';
+
+    $response = wp_remote_get( $api_url );
+
+    if ( is_wp_error( $response ) ) {
+        return 'Failed to retrieve data.';
+    }
+
+    $body = wp_remote_retrieve_body( $response );
+
+    $data = json_decode( $body, true );
+
+    if ( empty( $data['acf']['level_1'] ) ) {
+        return '<p style="display: none">No data found in level_1.</p>';
+    }
+
+    // var_dump($data);
+
+    function display_levels($data) {
+        $output = '<ul style="display: none">';
+        foreach ($data as $item) {
+            $output .= '<li>';
+
+            if (!empty($item['link'])) {
+                $output .= '<a href="' . esc_url($item['link']) . '">' . esc_html($item['text']) . '</a>';
+            } else {
+                $output .= esc_html($item['text']);
+            }
+
+            if (!empty($item['level_2'])) {
+                $output .= display_levels($item['level_2']);
+            }
+            if (!empty($item['level_3'])) {
+                $output .= display_levels($item['level_3']);
+            }
+            if (!empty($item['level_4'])) {
+                $output .= display_levels($item['level_4']);
+            }
+            if (!empty($item['level_5'])) {
+                $output .= display_levels($item['level_5']);
+            }
+
+            $output .= '</li>';
+        }
+        $output .= '</ul>';
+        return $output;
+    }
+
+    $output = display_levels($data['acf']['level_1']);
+
+    return $output;
+}
+
+add_shortcode('fetch_acf_level_1', 'fetch_acf_level_1_from_api_shortcode');
